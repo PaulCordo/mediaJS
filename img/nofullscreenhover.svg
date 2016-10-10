@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="150 90 400 400" xml:space="preserve">
+<g class="nofullscreenbutton">
+	<g class="nofullscreenhover">
+		<path fill="#FFFFFF" d="M256.8,365.2L206.1,416c-5,5-5,13,0,17.9l0,0c5,5,13,5,17.9,0l50.7-50.7l34,34l31.4-117.3l-117.3,31.4
+			L256.8,365.2z"/>
+		<path fill="#FFFFFF" d="M274.8,196.8L224,146.1c-5-5-13-5-17.9,0l0,0c-5,5-5,13,0,17.9l50.7,50.7l-34,34l117.3,31.4l-31.4-117.3
+			L274.8,196.8z"/>
+		<path fill="#FFFFFF" d="M443.8,214.8l50.7-50.7c5-5,5-13,0-17.9l0,0c-5-5-13-5-17.9,0l-50.7,50.7l-34-34l-31.4,117.3l117.3-31.4
+			L443.8,214.8z"/>
+		<path fill="#FFFFFF" d="M425.9,383.2l50.7,50.7c5,5,13,5,17.9,0l0,0c5-5,5-13,0-17.9l-50.7-50.7l34-34l-117.3-31.4l31.4,117.3
+			L425.9,383.2z"/>
+	</g>
+</g>
+</svg>

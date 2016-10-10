@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.2" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" viewBox="150 90 400 400" xml:space="preserve">
+<g class="fullscreenbutton">
+	<g class="fullscreenhover">
+		<path fill="#FFFFFF" d="M466.9,155.2l-50.7,50.7c-5,5-5,12.9,0,17.9l0,0c5,5,12.9,5,17.9,0l50.7-50.7l33.9,33.9L550,90
+			l-117.1,31.3L466.9,155.2z"/>
+		<path fill="#FFFFFF" d="M484.8,406.9l-50.7-50.7c-5-5-12.9-5-17.9,0l0,0c-5,5-5,12.9,0,17.9l50.7,50.7l-33.9,33.9L550,490
+			l-31.3-117.1L484.8,406.9z"/>
+		<path fill="#FFFFFF" d="M233.1,424.8l50.7-50.7c5-5,5-12.9,0-17.9l0,0c-5-5-12.9-5-17.9,0l-50.7,50.7l-33.9-33.9L150,490
+			l117.1-31.3L233.1,424.8z"/>
+		<path fill="#FFFFFF" d="M215.2,173.1l50.7,50.7c5,5,12.9,5,17.9,0l0,0c5-5,5-12.9,0-17.9l-50.7-50.7l33.9-33.9L150,90l31.3,117.1
+			L215.2,173.1z"/>
+	</g>
+</g>
+</svg>
