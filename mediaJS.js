@@ -3,10 +3,6 @@
 * touchHover
 */
 
-// when 'ready' event's fired:
-// element.play() for playing/showing it
-// element.pause() to pause/hide it
-// 'ended' event will be fired
 
 /*
 * @class mediaJS
@@ -300,17 +296,33 @@ var mediaJS = function(configuration) {
     // iframe configuration
     var extVideoElement = media.element = document.createElement('iframe'),
       options = configuration.options,
-      // retrieve videoId from URI
-      videoId = uri.split('?')[0].split('/').pop();
-    extVideoElement.id = provider + videoId;
+      videoId,
+      playerId;
     extVideoElement.provider = provider;
     extVideoElement.className = "media-js";
     extVideoElement.setAttribute('frameborder', 0);
     extVideoElement.setAttribute('webkitallowfullscreen', '');
     extVideoElement.setAttribute('allowfullscreen', '');
+    if(uri.indexOf('/') < 0){
+      // uri is a videoID
+      videoId = uri;
+      switch (provider) {
+        case 'youtube':
+          uri = 'https://youtube.com/embed/' + videoId + '?enablejsapi=' + (options.api || '1') + '&rel=' + (options.rel || '0') + '&showinfo=' + (options.showinfo || '0') + '&color=' + (options.color || 'white') + '&iv_load_policy=' + (options.ivLoadPolicy || '3') + '&disablekb=' + (options.disablekb || '1') + '&cc_load_policy=' + (options.ccLoadPolicy || '0');
+          break;
+        case 'vimeo':
+          uri = 'https://player.vimeo.com/video/' + videoId + '?api=' + (options.api || '1') + '&title=' + (options.title || '0') + '&portrait=' + (options.portrait || '0') + '&color=' + (options.color || 'f0f0f0') + '&byline=' + (options.byline || '0') + '&badge=' + (options.badge || '0');
+          break;
+      }
+    }else{
+      // retrieve videoId from URI
+      videoId = uri.split('?')[0].split('/').pop();
+    }
+    extVideoElement.id = provider + videoId;
+    // Configure playerId to communicate with the provider, listen for events
     switch (provider) {
       case 'youtube':
-        extVideoElement.setAttribute('src', 'https://youtube.com/embed/' + videoId + '?enablejsapi=' + (options.api || '1') + '&playerapiid=' + extVideoElement.id + '&rel=' + (options.rel || '0') + '&showinfo=' + (options.showinfo || '0') + '&color=' + (options.color || 'white') + '&iv_load_policy=' + (options.ivLoadPolicy || '3') + '&disablekb=' + (options.disablekb || '1') + '&cc_load_policy=' + (options.ccLoadPolicy || '0'));
+        playerId = '&playerapiid=' + extVideoElement.id;
         extVideoElement.addEventListener('load', function(e) {
           media.post('listening');
         });
@@ -319,7 +331,7 @@ var mediaJS = function(configuration) {
         });
         break;
       case 'vimeo':
-        extVideoElement.setAttribute('src', 'https://player.vimeo.com/video/' + videoId + '?api=' + (options.api || '1') + '&player_id=' + extVideoElement.id + '&title=' + (options.title || '0') + '&portrait=' + (options.portrait || '0') + '&color=' + (options.color || 'f0f0f0') + '&byline=' + (options.byline || '0') + '&badge=' + (options.badge || '0'));
+        playerId = '&player_id=' + extVideoElement.id;
         extVideoElement.addEventListener('ready', function(e) {
           media.post('addEventListener', 'play');
           media.post('addEventListener', 'pause');
@@ -327,6 +339,7 @@ var mediaJS = function(configuration) {
         });
         break;
     }
+    extVideoElement.setAttribute('src', uri.split('?').splice(1,0,playerId).join());
   
     function keyboardControls(event) {
       event.stopImmediatePropagation();
