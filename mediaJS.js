@@ -3,7 +3,6 @@
 * touchHover
 */
 
-
 /*
 * @class mediaJS
 *
@@ -447,6 +446,7 @@ var mediaJS = function(configuration) {
     var sources = (uri.constructor === Array) ? (uri[0].tracks) ? uri : [{tracks:uri}] : [{tracks:[uri]}],
     sourceElement = document.createElement('source'),
     loaderTimeOutID;
+    
     function changeSource(sourceIndex){
       var source = sources[sourceIndex || options.default || 0],
         track,
@@ -457,8 +457,8 @@ var mediaJS = function(configuration) {
       videoElement.innerHTML = '';
       for (var i = source.tracks.length - 1; i >= 0; i--) {
         track = source.tracks[i];
-        sourceElement.setAttribute('type', track.type);
-        sourceElement.setAttribute('src', track.src);
+        sourceElement.setAttribute('type', track.type || 'video/mp4');
+        sourceElement.setAttribute('src', track.src || track);
         videoElement.appendChild(sourceElement.cloneNode());
       }
       videoElement.load();
