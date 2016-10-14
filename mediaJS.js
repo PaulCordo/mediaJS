@@ -137,9 +137,11 @@ var mediaJS = function(configuration) {
           slideElement.addEventListener('click', toggleControls);
           slideElement.addEventListener('click', nextSlide);
       }
-      // block slideMedia's event propagation
-      if(slideMedia.element) slideMedia.element.addEventListener('ended', function(event){
+      slideMedia.element.addEventListener('ended', function(event){
+        // block slideMedia's event propagation
         event.stopPropagation();
+        // nextSlide at the end of media
+        nextSlide();
       });
       slideElement.media.addEventListener('ready', function(event) {
         if(slides.indexOf(this) != 0) event.stopPropagation();
