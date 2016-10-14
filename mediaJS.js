@@ -76,6 +76,7 @@ var mediaJS = function(configuration) {
   * @return {string} provider - the media provider from : ('vimeo'|'youtube'|'video'|'picture') or false
   */
   function getProvider(uri){
+    if(uri.constructor === Array) return 'video';
     uri = uri.toLowerCase();
     // video
     if(/\.(mp4|webm|ogv)$/.test(uri)) return 'video';
