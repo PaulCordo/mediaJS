@@ -711,7 +711,7 @@ var mediaJS = function(configuration) {
           qualityElement.classList.add('quality');
           // reference of element to select it on sourceChange
           qualityElement.textContent = sources[sourceIndex].name || 'video '+i+1;
-          configuration.sources[sourceIndex].element = qualityElement;
+          sources[sourceIndex].element = qualityElement;
           qualityElement.addEventListener('click', function(){
             if(!this.classList.contains('selected')){
               changeSource(sourceIndex);
@@ -975,7 +975,7 @@ function onMessageReceived(event) {
     "vimeo": ['finish', 'play', 'pause', 'ready'],
     "youtube": [0, 1, 2, 'onReady']
   }; // 0 stopped || finish, 1 playing, 2 paused, 3 ready
-
+  
   if (!(/^https?:\/\/(www\.)?(youtube|player\.vimeo)\.com.*/).test(event.origin)) {
     return false;
   }
