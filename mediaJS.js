@@ -115,30 +115,38 @@ var mediaJS = function(configuration) {
     var loading,
       name = document.createElement('div');
     name.className = "name";
-    for (var i = 0; i < slidesUri.length; i++) {
+    
+    function createSlide(){
+      if(i >= slidesUri.length) return;
       var slideUri = slidesUri[i],
         slideElement = slides[i] = document.createElement('div');
       slideElement.className = i + ' slide';
-      slideElement.loadEventType = 'load';
       var slideMedia = new mediaJS(slideUri);
       slideElement.media = slideMedia.element;
       slideElement.appendChild(slideMedia.element);
-      switch (getProvider(slideUri)) {
+      switch (slideMedia.provider) {
         case "vimeo":
         case "youtube":
-          break;
         case "video":
+          slideElement.toggle = false;
           break;
         case "picture":
+          slideElement.toggle = true;
+          slideElement.addEventListener('mousemove', debounce(toggleControls, 20));
+          slideElement.addEventListener('slideChange', toggleControls);
+          slideElement.addEventListener('click', toggleControls);
           slideElement.addEventListener('click', nextSlide);
       }
       // block slideMedia's event propagation
       if(slideMedia.element) slideMedia.element.addEventListener('ended', function(event){
         event.stopPropagation();
       });
-      slideElement.preload.addEventListener('ready', function(event) {
+      slideElement.media.addEventListener('ready', function(event) {
         if(slides.indexOf(this) != 0) event.stopPropagation();
+        else this.classList.add('selected');
         this.loaded = true;
+        i++;
+        createSlide();
       }.bind(slideElement));
       // add name
       if (slideUri.name) {
@@ -148,14 +156,16 @@ var mediaJS = function(configuration) {
       }
       galleryElement.appendChild(slideElement);
     }
+    var i = 0;
+    createSlide();
     
     // First slide is selected
-    slides[0].classList.add('selected');
     var selectedSlideIndex = 0;
     
     //Navigation
     var timer = 0;
     function toggleControls() {
+      if(!slides[selectedSlideIndex].toggle) return;
       controls.classList.remove('hidden');
       slides[selectedSlideIndex].nameElement.classList.remove('hidden');
       if (timer) {
@@ -169,6 +179,7 @@ var mediaJS = function(configuration) {
     
     function keyboardControls(event) {
       event.stopImmediatePropagation();
+      toggleControls();
       switch (event.key) {
         case " ":
         case "Enter":
@@ -230,13 +241,11 @@ var mediaJS = function(configuration) {
       if (slides[index].loaded) selectSlide(index);
       else {
         loading = index;
-        document.body.classList.add('progress');
         slides[loading].media.addEventListener('ready', loadedSlide);
       }
     }
   
     function nextSlide() {
-      toggleControls();
       var index = selectedSlideIndex + 1;
       if (loading) {
         if (loading == index){
@@ -245,22 +254,17 @@ var mediaJS = function(configuration) {
           return;
         }else loadedSlide();
       }
-      switch (index) {
-        case 1:
-          break;
-        case (slides.length):
-          index = 0;
-        case 0:
-          
-          break;
-      }
+      if(index == slides.length) index = 0;
       if (slides[index].loaded) selectSlide(index);
       else {
         loading = index;
-        slides[index].preload.addEventListener(slides[index].loadEventType, loadedSlide);
+        slides[loading].media.addEventListener('ready', loadedSlide);
       }
     }
-  
+    
+    
+    var slideChangeEvent = document.createEvent('Event');
+    slideChangeEvent.initEvent('slideChange', true, true);
     function selectSlide(index) {
       switch (index) {
         case 1:
@@ -273,22 +277,22 @@ var mediaJS = function(configuration) {
           next.classList.remove('hidden');
           break;
       }
-      slides[selectedSlideIndex].classList.remove('selected');
-      slides[selectedSlideIndex].media.pause();
-      slides[index].classList.add('selected');
+      var oldSlide = slides[selectedSlideIndex],
+        newSlide = slides[index];
+      oldSlide.media.pause();
+      oldSlide.classList.remove('selected');
+      newSlide.classList.add('selected');
+      newSlide.dispatchEvent(slideChangeEvent);
       selectedSlideIndex = index;
-      toggleControls();
     }
     next.addEventListener('click', nextSlide);
     previous.addEventListener('click', previousSlide);
     touchHover(controls);
-    galleryElement.addEventListener('mousemove', debounce(toggleControls, 20));
     galleryElement.play = function() {
       window.addEventListener('keypress', keyboardControls);
     };
     galleryElement.pause = function() {
       window.removeEventListener('keypress', keyboardControls);
-      galleryElement.dispatchEvent(mediaPaused);
       slides[selectedSlideIndex].media.pause();
     };
   }
