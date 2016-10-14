@@ -1,5 +1,4 @@
 /* global debounce,
-* requestFullscreen,
 * touchHover
 */
 
@@ -12,6 +11,7 @@
 *
 * @property {Object} element - the mediaJS DOM element
 * @property {number} element.state - 0 stopped || finish, 1 playing, 2 paused, 3 ready
+* @property {boolean} element.iFrame - true if the media require an iframe, false otherwise
 * @property {function} element.play - play media
 * @property {function} element.pause - pause media
 * @property {function} element.ready - dispatch ready event on element
@@ -19,33 +19,40 @@
 *
 * @param {string|string[]|Object|Object[]} configuration - a media URL, an Array of these, a configurationObject or an Array of those
 *
-* @param {Object} configurationObject - contains media configuration information
-* 
-* @param {string|string[]|Object} configurationObject.uri - a media URL, an external video id or an Array of those
-* @param {string} [configurationObject.provider] - the media provider from : ('vimeo'|'youtube'|'video'|'picture')
-* @param {string} [configurationObject.name] - a media's name to be displayed
-* @param {Object} [configurationObject.options] - an Object containing options relative to the media's provider
+* @param {string|string[]|Object|Object[]} configuration.uri - a media URL, an external video id, a videoSourceObject or an Array of those
+* @param {string} [configuration.provider] - the media provider from : ('vimeo'|'youtube'|'video'|'picture')
+* @param {string} [configuration.name] - a media's name to be displayed
+* @param {Object} [configuration.options] - an Object containing options relative to the media's provider
 *
-* @param {boolean} [configurationObject.options.muted=false]
-* @param {string} [configurationObject.options.preload='auto'] - ('none'|'metadata'|'auto')
-* @param {boolean} [configurationObject.options.noload=false] - don't load media
-* @param {string} [configurationObject.options.poster] - URI to poster
-* @param {number} [configurationObject.options.default=0] - index of default source in configurationObject.uri
+* @param {Object[]|string[]} configuration.uri.tracks - an Array of tracks string src or trackObject 
+* @param {string} [configuration.uri.name] - a source's name displayed in the player
 *
-* @param {number} [configurationObject.options.api=1] - enable API
-* @param {number} [configurationObject.options.rel=0]
-* @param {number} [configurationObject.options.showinfo=0]
-* @param {string} [configurationObject.options.color='white']
-* @param {number} [configurationObject.options.ivLoadPolicy=3]
-* @param {number} [configurationObject.options.disablekb=1]
-* @param {number} [configurationObject.options.ccLoadPolicy=0]
+* video
+* @param {string} configuration.uri.tracks.src - the URI of the track
+* @param {string} [configuration.uri.tracks.type='video/mp4'] - the mime type of the track
 *
-* @param {number} [configurationObject.options.api=1] - enable API
-* @param {number} [configurationObject.options.title=0]
-* @param {number} [configurationObject.options.portrait=0]
-* @param {string} [configurationObject.options.color='f0f0f0']
-* @param {number} [configurationObject.options.byline=0]
-* @param {number} [configurationObject.options.badge=0]
+* @param {boolean} [configuration.options.muted=false]
+* @param {string} [configuration.options.preload='auto'] - ('none'|'metadata'|'auto')
+* @param {string} [configuration.options.poster] - URI to poster
+* @param {number} [configuration.options.default=0] - index of default source in configurationObject.uri
+* @param {boolean} [configuration.options.time=true] - Show current time and duration
+*
+* youtube
+* @param {number} [configuration.options.api=1] - enable API
+* @param {number} [configuration.options.rel=0]
+* @param {number} [configuration.options.showinfo=0]
+* @param {string} [configuration.options.color='white'] - Color of the player, red or white
+* @param {number} [configuration.options.ivLoadPolicy=3]
+* @param {number} [configuration.options.disablekb=1] - Disable keyboard's controls, 
+* @param {number} [configuration.options.ccLoadPolicy=0]
+*
+* vimeo
+* @param {number} [configuration.options.api=1] - enable API
+* @param {number} [configuration.options.title=0] - Show video title in iframe
+* @param {number} [configuration.options.portrait=0] - Show author's picture
+* @param {string} [configuration.options.color='f0f0f0'] - Color of player's controls
+* @param {number} [configuration.options.byline=0] - Show user byline with video's title
+* @param {number} [configuration.options.badge=0] - Show author's badge
 *
 */
 var mediaJS = function(configuration) {
