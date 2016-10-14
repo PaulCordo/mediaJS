@@ -449,9 +449,24 @@ var mediaJS = function(configuration) {
     videoElement.setAttribute('webkitallowfullscreen', '');
     videoElement.setAttribute('allowfullscreen', '');
     videoElement.setAttribute('muted', options.muted || false);
-    videoElement.setAttribute('preload', options.preload || 'auto');
-    if(options.poster) videoElement.setAttribute('poster', options.poster);
+    videoElement.setAttribute('preload', options.preload || 'metadata');
     videoWrapper.className = "video media-js";
+    
+    // Poster
+    if(options.poster){
+      // If there's one, is loading will fire mediaReady
+      videoElement.setAttribute('poster', options.poster);
+      var posterImg = new Image();
+      posterImg.addEventListener('load', function(){
+        videoWrapper.dispatchEvent(mediaReady);
+      });
+      posterImg.setAttribute('src', options.poster);
+    }else{
+      // else fire it when firstframe is loaded
+      videoElement.addEventListener('loadeddata', function(){
+        videoWrapper.dispatchEvent(mediaReady);
+      });
+    }
     
     // Sources
     // configure sources Array in case of lazy uri typing
@@ -775,15 +790,17 @@ var mediaJS = function(configuration) {
       }
     }
   
-    // Simple loading interface attaching a value ]0,1] as 1 is canplaythrought and 0 is havenothing and triggering a 'loading' event on the videoWrapper
+    // Simple loading interface attaching a value ]0,1] as 1 is canPlayThrough and 0 is havenothing and triggering a 'loading' event on the videoWrapper
     var intVideoLoading = document.createEvent('Event'),
-      canplay = document.createEvent('Event'),
+      canPlay = document.createEvent('Event'),
+      canPlayThrough = document.createEvent('Event'),
       previousProgress = 0,
       fourCount = 0,
       time = 500;
     intVideoLoading.initEvent('loading', true, true);
-    canplay.initEvent('canplay', true, true);
-  
+    canPlay.initEvent('canPlay', true, true);
+    canPlayThrough.initEvent('canPlayThrough', true, true);
+    
     function loader() {
       switch (videoElement.readyState) {
         case 2:
@@ -797,10 +814,10 @@ var mediaJS = function(configuration) {
           fourCount = 0;
           break;
         case 4:
-          // in case there is 3 consecutive readyState 4 or loaded near the end
+          // in case there is 3 consecutive readyState 4 or sufficiently loaded to be played through
           if (videoWrapper.loaded > 0.9 || fourCount >= 2) {
             videoWrapper.loaded = 1;
-            videoElement.dispatchEvent(mediaReady);
+            videoElement.dispatchEvent(canPlayThrough);
             return;
           }
           else fourCount += 1;
@@ -808,21 +825,28 @@ var mediaJS = function(configuration) {
       loaderTimeOutID = window.setTimeout(loader, time);
     }
     
-    // start loading except if specicified
-    if(!configuration.noload) changeSource();
+    function onProgress() {
+      loadedElement.style.width = (videoElement.buffered.length>=1 ? videoElement.buffered.end(videoElement.buffered.length - 1) / videoElement.duration * 100 : 0) + '%';
+    }
+    
+    // start loading
+    changeSource();
     // expose two methods to control the loading
-    videoWrapper.loadMedia = changeSource;
-    videoWrapper.stopMedia = function(){
+    videoWrapper.load = changeSource;
+    videoWrapper.stop = function(){
       if(!videoElement.paused) play();
       window.clearTimeout(loaderTimeOutID);
       videoElement.innerHTML = '<source src="about:blank">';
       videoElement.load();
     };
     
-    function onProgress() {
-      loadedElement.style.width = (videoElement.buffered.length>=1 ? videoElement.buffered.end(videoElement.buffered.length - 1) / videoElement.duration * 100 : 0) + '%';
-    }
-    videoElement.addEventListener('canplay', function() {
+    // expose controls
+    media.controlsElement = controlsElement;
+    
+    // create dummies before canPlay media
+    videoWrapper.play = function() { return;};
+    videoWrapper.pause = function() { return;};
+    videoElement.addEventListener('canplay', function(event) {
       // Fix for webkit mobile browsers
       videoElement.muted = false;
       videoWrapper.play = function() {
