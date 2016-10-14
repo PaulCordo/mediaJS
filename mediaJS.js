@@ -502,13 +502,15 @@ var mediaJS = function(configuration) {
     // Controls
     var controlsElement = div.cloneNode(),
       controlsLeftElement = div.cloneNode();
-    controlsElement.classList.add('controls');
+    controlsElement.classList.add('controls', 'stay');
     controlsLeftElement.classList.add('controls-left');
     videoWrapper.appendChild(controlsElement);
     controlsElement.appendChild(controlsLeftElement);
     
     var timer;
     function toggleControls() {
+      // Don't toggle controls if video paused
+      if(videoElement.paused === true) return;
       controlsElement.classList.remove('hidden');
       if (timer) {
         window.clearTimeout(timer);
