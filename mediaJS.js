@@ -504,7 +504,20 @@ var mediaJS = function(configuration) {
     controlsLeftElement.classList.add('controls-left');
     videoWrapper.appendChild(controlsElement);
     controlsElement.appendChild(controlsLeftElement);
-  
+    
+    var timer;
+    function toggleControls() {
+      controlsElement.classList.remove('hidden');
+      if (timer) {
+        window.clearTimeout(timer);
+      }
+      timer = window.setTimeout(function() {
+        controlsElement.classList.add('hidden');
+      }, 2000);
+    }
+    touchHover(controlsElement);
+    videoWrapper.addEventListener('mousemove', debounce(toggleControls, 20));
+    
     // ProgressBar
     var progressBarElement = div.cloneNode(),
       loadedElement = div.cloneNode(),
@@ -883,21 +896,6 @@ var mediaJS = function(configuration) {
       }
     });
   
-    touchHover(controlsElement);
-    videoWrapper.addEventListener('mousemove', debounce(toggleControls, 20));
-    var timer;
-  
-    function toggleControls() {
-      controlsElement.classList.remove('hidden');
-      if (timer) {
-        window.clearTimeout(timer);
-      }
-      timer = window.setTimeout(function() {
-        controlsElement.classList.add('hidden');
-      }, 2000);
-    }
-    // expose controls
-    media.controlsElement = controlsElement;
   }
   
   /*
@@ -924,6 +922,7 @@ var mediaJS = function(configuration) {
   // catch gallery
   if(configuration.constructor === Array){
     createGallery(configuration);
+    
   }
   else{
     // get URI
