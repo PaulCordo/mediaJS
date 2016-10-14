@@ -1,0 +1,32 @@
+{
+  "name": "mediaJS",
+  "description": "A JS library to create and control media content",
+  "authors": [
+    "Paul C <paul@paulcordonnier.com> (http://paulcordonnier.com)",
+    "Sim B"
+  ],
+  "main": [
+    "mediaJS.js",
+    "mediaJS.css"
+    ],
+  "license": "Internal",
+  "keywords": [
+    "media",
+    "JS",
+    "mediaLib"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://git.i/sbnetwork/mediaJS.git"
+  },
+  "dependencies": {
+    "utilJS": "http://git.i/sbnetwork/utilJS.git"
+  }
+}
