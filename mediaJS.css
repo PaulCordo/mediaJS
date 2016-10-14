@@ -1,6 +1,9 @@
-.flex-wrapper {
+.media-js {
   height: 100%;
   width: 100%;
+}
+.media-js.video {
+  position: relative;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -11,20 +14,15 @@
   -ms-align-items: center;
   -webkit-align-items: center;
 }
-.int-video {
-  position: relative;
-  height: 100%;
-  width: 100%;
-}
-.int-video -webkit-media-controls {
+.media-js.video -webkit-media-controls {
   display: none !important;
 }
-.int-video video {
+.media-js.video video {
   height: 100%;
   width: 100%;
   outline: 0;
 }
-.int-video .controls {
+.media-js.video .controls {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -34,7 +32,7 @@
   padding: 0 5px 8px;
   opacity: 1;
 }
-.int-video .controls .progress-bar {
+.media-js.video .controls .progress-bar {
   position: absolute;
   bottom: 0px;
   left: 0px;
@@ -44,38 +42,38 @@
   cursor: pointer;
   background-color: rgba(50,50,50,0.1);
 }
-.int-video .controls .progress-bar div {
+.media-js.video .controls .progress-bar div {
   transition: height 0.1s;
   position: absolute;
   height: 4px;
 }
-.int-video .controls .progress-bar .loaded {
+.media-js.video .controls .progress-bar .loaded {
   background-color: rgba(250,250,250,0.2);
   transition: width 0.2s;
 }
-.int-video .controls .progress-bar .played {
+.media-js.video .controls .progress-bar .played {
   background-color: #fff;
   transition: width 0.1s;
 }
-.int-video .controls .progress-bar .seek {
+.media-js.video .controls .progress-bar .seek {
   background-color: rgba(255,255,255,0.2);
 }
-.int-video .controls .progress-bar .seek:hover,
-.int-video .controls .progress-bar .seek.hover {
+.media-js.video .controls .progress-bar .seek:hover,
+.media-js.video .controls .progress-bar .seek.hover {
   display: inline-block;
 }
-.int-video .controls .progress-bar:hover,
-.int-video .controls .progress-bar.hover {
+.media-js.video .controls .progress-bar:hover,
+.media-js.video .controls .progress-bar.hover {
   padding: 0;
 }
-.int-video .controls .progress-bar:hover div,
-.int-video .controls .progress-bar.hover div {
+.media-js.video .controls .progress-bar:hover div,
+.media-js.video .controls .progress-bar.hover div {
   height: 6px;
 }
-.int-video .controls .progress-bar:active {
+.media-js.video .controls .progress-bar:active {
   cursor: grabbing;
 }
-.int-video .controls .controls-left {
+.media-js.video .controls .controls-left {
   position: absolute;
   bottom: 11px;
   left: 0px;
@@ -90,39 +88,41 @@
   -ms-align-items: center;
   -webkit-align-items: center;
 }
-.int-video .controls .play,
-.int-video .controls .fullscreen,
-.int-video .controls .volume-logo,
-.int-video .controls .quality-selector {
+.media-js.video .controls .play,
+.media-js.video .controls .fullscreen,
+.media-js.video .controls .volume-logo,
+.media-js.video .controls .quality-selector {
   background-position: center;
   background-repeat: no-repeat;
   cursor: pointer;
 }
-.int-video .controls .play {
+.media-js.video .controls .play {
   display: inline-block;
   height: 36px;
   width: 72px;
   background-size: 24px;
   background-image: url("img/pause.svg");
 }
-.int-video .controls .play.paused {
+.media-js.video .controls .play.paused {
   background-image: url("img/play.svg");
 }
-.int-video .controls .time {
+.media-js.video .controls .time {
   margin-left: 12px;
   display: inline-block;
   font-family: helvetica;
   font-weight: 100;
   font-size: 12px;
+}
+.media-js.video .controls .time.hidden {
   display: none;
 }
-.int-video .controls .time .duration::before {
+.media-js.video .controls .time .duration::before {
   content: ' / ';
 }
-.int-video .controls .time div {
+.media-js.video .controls .time div {
   display: inline;
 }
-.int-video .controls .quality-selector {
+.media-js.video .controls .quality-selector {
   position: absolute;
   overflow: hidden;
   right: 85px;
@@ -133,41 +133,41 @@
   font-family: helvetica;
   font-weight: 100;
 }
-.int-video .controls .quality-selector:hover,
-.int-video .controls .quality-selector.hover {
+.media-js.video .controls .quality-selector:hover,
+.media-js.video .controls .quality-selector.hover {
   overflow: visible;
 }
-.int-video .controls .quality-selector:hover .qualities,
-.int-video .controls .quality-selector.hover .qualities {
+.media-js.video .controls .quality-selector:hover .qualities,
+.media-js.video .controls .quality-selector.hover .qualities {
   max-height: 216px;
 }
-.int-video .controls .quality-selector:hover .qualities .quality,
-.int-video .controls .quality-selector.hover .qualities .quality {
+.media-js.video .controls .quality-selector:hover .qualities .quality,
+.media-js.video .controls .quality-selector.hover .qualities .quality {
   opacity: 1;
   height: 36px;
 }
-.int-video .controls .quality-selector .qualities {
+.media-js.video .controls .quality-selector .qualities {
   position: absolute;
   top: -36px;
   width: 100%;
   max-height: 0px;
   transition: max-height 0.5s cubic-bezier(1, 0, 1, 0);
 }
-.int-video .controls .quality-selector .qualities .quality {
+.media-js.video .controls .quality-selector .qualities .quality {
   width: 100%;
   line-height: 36px;
   height: 0px;
   opacity: 0;
   transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
-.int-video .controls .quality-selector .qualities .quality.selected {
+.media-js.video .controls .quality-selector .qualities .quality.selected {
   height: 36px;
   opacity: 1;
   position: absolute;
   top: 36px;
   font-weight: bold;
 }
-.int-video .controls .fullscreen {
+.media-js.video .controls .fullscreen {
   position: absolute;
   right: 36px;
   bottom: 11px;
@@ -176,10 +176,10 @@
   background-size: 80%;
   background-image: url("img/fullscreen.svg");
 }
-.int-video .controls .fullscreen.full {
+.media-js.video .controls .fullscreen.full {
   background-image: url("img/nofullscreen.svg");
 }
-.int-video .controls .volume {
+.media-js.video .controls .volume {
   height: 36px;
   display: inline-block;
   cursor: pointer;
@@ -193,7 +193,7 @@
   -ms-align-items: center;
   -webkit-align-items: center;
 }
-.int-video .controls .volume .volume-bar {
+.media-js.video .controls .volume .volume-bar {
   display: inline-block;
   position: relative;
   height: 3px;
@@ -201,100 +201,105 @@
   transition: width 0.5s;
   background-color: rgba(250,250,250,0.2);
 }
-.int-video .controls .volume .volume-bar .volume-level {
+.media-js.video .controls .volume .volume-bar .volume-level {
   position: absolute;
   background-color: #fff;
   height: 100%;
 }
-.int-video .controls .volume .volume-bar:hover,
-.int-video .controls .volume .volume-bar.hover,
-.int-video .controls .volume .volume-bar.active {
-  height: 6px;
+.media-js.video .controls .volume .volume-bar:hover,
+.media-js.video .controls .volume .volume-bar.hover,
+.media-js.video .controls .volume .volume-bar.active {
+  background-color: rgba(250,250,250,0.4);
 }
-.int-video .controls .volume:hover .volume-bar,
-.int-video .controls .volume.hover .volume-bar,
-.int-video .controls .volume.active .volume-bar {
+.media-js.video .controls .volume:hover .volume-bar,
+.media-js.video .controls .volume.hover .volume-bar,
+.media-js.video .controls .volume.active .volume-bar {
   width: calc(36px + 2vw);
 }
-.int-video .controls .volume .volume-logo {
+.media-js.video .controls .volume .volume-logo {
   display: inline-block;
   height: 36px;
   width: 36px;
   background-image: url("img/volume.svg");
   background-size: 50%;
 }
-.int-video .controls .volume.muted .volume-level {
+.media-js.video .controls .volume.muted .volume-level {
   background-color: rgba(100,100,100,0.5);
 }
-.int-video .controls .volume.muted .volume-logo {
+.media-js.video .controls .volume.muted .volume-logo {
   background-image: url("img/muted.svg");
 }
-.int-video .controls.hidden {
+.media-js.video .controls.hidden {
   transition: opacity 0.5s;
   opacity: 0;
 }
-.int-video .controls.hidden.stay {
+.media-js.video .controls.hidden.stay {
   opacity: 1;
 }
-.int-video .controls:hover,
-.int-video .controls.hover {
+.media-js.video .controls:hover,
+.media-js.video .controls.hover {
   opacity: 1;
 }
-.int-video.grabbing {
+.media-js.video.grabbing {
   cursor: grabbing;
 }
-.int-video.grabbing .controls {
+.media-js.video.grabbing .controls {
   opacity: 1;
 }
-.gallery .slide {
-  z-index: -1;
+.media-js.picture {
   position: absolute;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+}
+.media-js.gallery .slide {
+  z-index: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
   opacity: 0;
   visibility: hidden;
+  width: 100%;
+  height: 100%;
 }
-.gallery .slide.selected {
+.media-js.gallery .slide.selected {
   opacity: 1;
   visibility: visible;
 }
-.gallery .slide .name {
+.media-js.gallery .slide .name {
   position: absolute;
   top: 36px;
   left: 36px;
   font-family: 'bebas', sans-serif;
   background-color: rgba(0,0,0,0.7);
   padding: 0 6px;
-  font-weight: regular;
+  font-weight: normal;
   font-size: 1.5rem;
   opacity: 1;
   transition: opacity 0.5s;
 }
-.gallery .slide .name.hidden {
+.media-js.gallery .slide .name.hidden {
   opacity: 0;
 }
-.gallery .slide .name.hidden:hover,
-.gallery .slide .name.hidden .hover {
+.media-js.gallery .slide .name.hidden:hover,
+.media-js.gallery .slide .name.hidden .hover {
   opacity: 1;
 }
-.gallery .controls {
+.media-js.gallery .controls {
   opacity: 1;
   transition: opacity 0.5s;
 }
-.gallery .controls.hidden {
+.media-js.gallery .controls.hidden {
   opacity: 0;
 }
-.gallery .controls.hidden:hover,
-.gallery .controls.hidden .hover {
+.media-js.gallery .controls.hidden:hover,
+.media-js.gallery .controls.hidden .hover {
   opacity: 1;
 }
-.gallery .next,
-.gallery .previous {
+.media-js.gallery .next,
+.media-js.gallery .previous {
   z-index: 1;
   position: fixed;
   top: calc(50vh - 21px);
@@ -306,18 +311,18 @@
   background-repeat: no-repeat;
   cursor: pointer;
 }
-.gallery .next:hover,
-.gallery .previous:hover {
+.media-js.gallery .next:hover,
+.media-js.gallery .previous:hover {
   animation-duration: 2s;
   -webkit-animation-duration: 2s;
   animation-iteration-count: infinite;
   -webkit-animation-iteration-count: infinite;
 }
-.gallery .next.hidden,
-.gallery .previous.hidden {
+.media-js.gallery .next.hidden,
+.media-js.gallery .previous.hidden {
   visibility: hidden;
 }
-.gallery .next {
+.media-js.gallery .next {
   right: 0;
   -webkit-transform: rotate(270deg);
   -ms-transform: rotate(270deg);
@@ -325,17 +330,13 @@
   animation-name: right;
   -webkit-animation-name: right;
 }
-.gallery .previous {
+.media-js.gallery .previous {
   left: 0;
   -webkit-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   transform: rotate(90deg);
   animation-name: left;
   -webkit-animation-name: left;
-}
-iframe.ext-video {
-  height: 100%;
-  width: 100%;
 }
 @-moz-keyframes left {
   0% {

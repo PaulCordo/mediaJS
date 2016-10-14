@@ -103,7 +103,7 @@ var mediaJS = function(configuration) {
       next = document.createElement('div'),
       previous = document.createElement('div');
     var slides = [];
-    galleryElement.className = 'gallery';
+    galleryElement.className = 'gallery media-js';
     controls.className = 'controls';
     next.className = 'next';
     controls.appendChild(next);
@@ -880,13 +880,13 @@ var mediaJS = function(configuration) {
   */
   function createPicture(){
     var pictureElement = media.element = document.createElement('div');
-    pictureElement.className = 'picture';
+    pictureElement.className = 'picture media-js';
     var preload = new Image();
     preload.src = uri;
     preload.addEventListener('load',function(){
       pictureElement.dispatchEvent(mediaReady);
       pictureElement.state = 3;
-    });
+    }); 
     pictureElement.style['background-image'] = "url('" + uri + "')";
     // expose dummies
     pictureElement.play = function(){ return true};
