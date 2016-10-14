@@ -936,12 +936,14 @@ var mediaJS = function(configuration) {
     
     // get provider
     provider = configuration.provider || getProvider(uri);
+    media.provider = provider;
     
     // create media
     switch (provider) {
       case 'vimeo':
       case 'youtube':
         createExtVideo();
+        media.element.iFrame = true;
         break;
       case 'video':
         createVideo();
@@ -950,10 +952,10 @@ var mediaJS = function(configuration) {
         createPicture();
         break;
     }
-    media.ready = function(){
+    media.element.ready = function(){
       media.element.dispatchEvent(mediaReady);
     };
-    media.ended = function(){
+    media.element.ended = function(){
       media.element.dispatchEvent(mediaEnded);
     };
   }
