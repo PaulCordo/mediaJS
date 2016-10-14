@@ -306,7 +306,7 @@ var mediaJS = function(configuration) {
   function createExtVideo(){
     // iframe configuration
     var extVideoElement = media.element = document.createElement('iframe'),
-      options = configuration.options,
+      options = configuration.options || {},
       videoId,
       playerId;
     extVideoElement.provider = provider;
@@ -350,7 +350,7 @@ var mediaJS = function(configuration) {
         });
         break;
     }
-    extVideoElement.setAttribute('src', uri.split('?').splice(1,0,playerId).join());
+    extVideoElement.setAttribute('src', uri.concat(playerId));
   
     function keyboardControls(event) {
       event.stopImmediatePropagation();
