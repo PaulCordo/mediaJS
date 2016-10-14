@@ -147,12 +147,12 @@ transform()
         font-family helvetica
         font-weight 100
         font-size 12px
+        &.hidden
+          display none
         .duration::before
           content ' / '
         div
           display inline
-        // Hidden time
-        display none
         
       .quality-selector
         position absolute
@@ -218,7 +218,7 @@ transform()
             background-color white
             height 100%
           &:hover,&.hover,&.active
-            height 6px
+            background-color rgba(250,250,250,0.4)
         &:hover,&.hover,&.active
           .volume-bar
             width calc(36px + 2vw)

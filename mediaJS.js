@@ -539,7 +539,13 @@ var mediaJS = function(configuration) {
     progressBarElement.appendChild(playedElement);
     timeElement.appendChild(currentTimeElement);
     timeElement.appendChild(durationElement);
-  
+    if(options.time === false) timeElement.classList.add('hidden');
+    videoElement.addEventListener('loadedmetadata', function(){
+      durationElement.textContent = displayTime(videoElement.duration);
+      volumeLevelElement.style.width = videoElement.volume * 100 + '%';
+      currentTimeElement.textContent = displayTime(videoElement.currentTime);
+    });
+    
     //Seeked
     function showSeek(event) {
       var progressBarRect = progressBarElement.getBoundingClientRect(),
@@ -876,12 +882,9 @@ var mediaJS = function(configuration) {
         document.removeEventListener('webkitfullscreenchange', onFullscreenExit);
         document.removeEventListener('fullscreenchange', onFullscreenExit);
       };
-      durationElement.textContent = displayTime(videoElement.duration);
-      currentTimeElement.textContent = displayTime(videoElement.currentTime);
-      volumeLevelElement.style.width = videoElement.volume * 100 + '%';
       onProgress();
       videoElement.addEventListener('progress', onProgress);
-      videoWrapper.dispatchEvent(canplay);
+      videoWrapper.dispatchEvent(canPlay);
     });
     
     // Video ended
