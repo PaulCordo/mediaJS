@@ -27,6 +27,6 @@
     "url": "http://git.i/sbnetwork/mediaJS.git"
   },
   "dependencies": {
-    "utilJS": "http://git.i/sbnetwork/utilJS.git"
+    "utilJS": "git@git.i:sbnetwork/utilJS.git"
   }
 }
