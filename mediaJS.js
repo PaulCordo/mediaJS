@@ -82,11 +82,10 @@ var mediaJS = function(configuration) {
     if(/\.(mp4|webm|ogv)$/.test(uri)) return 'video';
     if(/\.(jpg|jpeg|png|gif|svg)$/.test(uri)) return 'picture';
     // external URI
-    if(/^http:\/\//.test(uri)){
-      var domain = uri.split('/')[2];
-      if(/vimeo/.test(domain)) return 'vimeo';
-      else if (/(youtube|youtu\.be)/.test(domain)) return 'youtube';
-    }
+    var protocol = /^http(s)?:\/\//.test(uri),
+      domain = uri.split('/')[ protocol ? 2 : 0];
+    if(/vimeo/.test(domain)) return 'vimeo';
+    if (/(youtube|youtu\.be)/.test(domain)) return 'youtube';
     return false;
   }
   
@@ -330,6 +329,8 @@ var mediaJS = function(configuration) {
     }else{
       // retrieve videoId from URI
       videoId = uri.split('?')[0].split('/').pop();
+      if(!/^http(s)?:\/\//.test(uri)) uri = 'https://' + uri;
+      else uri = uri.replace('http:','https:');
     }
     extVideoElement.id = provider + videoId;
     // Configure playerId to communicate with the provider, listen for events
@@ -970,6 +971,8 @@ mediaJS.playerOrigin = {
   "youtube": "*"
 };
 /*
+* @function onMessageReceived
+*
 * @description
 *
 * catch iframe's messages from mediaJS elements
