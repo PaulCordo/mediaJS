@@ -56,18 +56,18 @@ transform()
   
 @keyframes left
   0%
-    transform translate(0,0) rotate(90deg)
+    transform translate(0,0) rotate(180deg)
   50%
-    transform translate(-10px,0) rotate(90deg)
+    transform translate(-10px,0) rotate(180deg)
   100%
-    transform translate(0,0) rotate(90deg)
+    transform translate(0,0) rotate(180deg)
 @keyframes right
   0%
-    transform translate(0,0) rotate(270deg)
+    transform translate(0,0)
   50%
-    transform translate(10px,0) rotate(270deg)
+    transform translate(10px,0)
   100%
-    transform translate(0,0) rotate(270deg)
+    transform translate(0,0)
 
 .media-js
   height 100%
@@ -292,10 +292,10 @@ transform()
       z-index 1
       position fixed
       top calc(50vh - 21px)
-      height 120px
+      height 56px
       width 42px
-      background-image url('img/arrow_down_white.svg')
-      background-size 36px
+      background-image url('img/next_white.svg')
+      background-size 21px
       background-position center
       background-repeat no-repeat
       cursor pointer
@@ -306,9 +306,8 @@ transform()
         visibility hidden
     .next
       right 0
-      transform rotate(270deg)
       animation-name right
     .previous
       left 0
-      transform rotate(90deg)
+      transform rotate(180deg)
       animation-name left
