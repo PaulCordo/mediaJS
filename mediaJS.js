@@ -16,6 +16,7 @@
 * @property {function} element.pause - pause media
 * @property {function} element.ready - dispatch ready event on element
 * @property {function} element.ended - dispatch ended event on element
+* @property {function} element.toggleControls - show for a short amount of time controls
 *
 * @param {string|string[]|Object|Object[]} configuration - a media URL, an Array of these, a configurationObject or an Array of those
 *
@@ -54,8 +55,10 @@
 * @param {number} [configuration.options.byline=0] - Show user byline with video's title
 * @param {number} [configuration.options.badge=0] - Show author's badge
 *
+* @param {boolean} [manualControlToggle] - Show and hide media controls manualy with element.toggleControls
+*
 */
-var mediaJS = function(configuration) {
+var mediaJS = function(configuration, manualControlToggle) {
   var media = this,
     uri,
     provider,
@@ -123,18 +126,20 @@ var mediaJS = function(configuration) {
       var slideMedia = new mediaJS(slideUri);
       slideElement.media = slideMedia.element;
       slideElement.appendChild(slideMedia.element);
-      switch (slideMedia.provider) {
-        case "vimeo":
-        case "youtube":
-        case "video":
-          slideElement.toggle = false;
-          break;
-        case "picture":
-          slideElement.toggle = true;
-          slideElement.addEventListener('mousemove', debounce(toggleControls, 20));
-          slideElement.addEventListener('slideChange', toggleControls);
-          slideElement.addEventListener('click', toggleControls);
-          slideElement.addEventListener('click', nextSlide);
+      if(!manualControlToggle){
+        switch (slideMedia.provider) {
+          case "vimeo":
+          case "youtube":
+          case "video":
+            slideElement.toggle = false;
+            break;
+          case "picture":
+            slideElement.toggle = true;
+            slideElement.addEventListener('mousemove', debounce(toggleControls, 20));
+            slideElement.addEventListener('slideChange', toggleControls);
+            slideElement.addEventListener('click', toggleControls);
+            slideElement.addEventListener('click', nextSlide);
+        }
       }
       slideMedia.element.addEventListener('ended', function(event){
         // block slideMedia's event propagation
@@ -177,10 +182,11 @@ var mediaJS = function(configuration) {
         slides[selectedSlideIndex].nameElement.classList.add('hidden');
       }, 2000);
     }
+    media.toggleControls = toggleControls;
     
     function keyboardControls(event) {
       event.stopImmediatePropagation();
-      toggleControls();
+      if(!manualControlToggle) toggleControls();
       switch (event.key) {
         case " ":
         case "Enter":
@@ -520,8 +526,9 @@ var mediaJS = function(configuration) {
         controlsElement.classList.add('hidden');
       }, 2000);
     }
+    media.toggleControls = toggleControls;
     touchHover(controlsElement);
-    videoWrapper.addEventListener('mousemove', debounce(toggleControls, 20));
+    if(!manualControlToggle) videoWrapper.addEventListener('mousemove', debounce(toggleControls, 20));
     
     // ProgressBar
     var progressBarElement = div.cloneNode(),
@@ -630,7 +637,7 @@ var mediaJS = function(configuration) {
     }
   
     function togglePlay() {
-      toggleControls();
+      if(!manualControlToggle) toggleControls();
       if (videoElement.paused) play();
       else pause();
     }
@@ -781,7 +788,7 @@ var mediaJS = function(configuration) {
   
     function keyboardControls(event) {
       event.stopImmediatePropagation();
-      toggleControls();
+      if(!manualControlToggle) toggleControls();
       switch (event.key) {
         case " ":
           togglePlay();
