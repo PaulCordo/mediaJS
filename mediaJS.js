@@ -117,9 +117,11 @@ var mediaJS = function(configuration, manualControlToggle) {
     var loading,
       name = document.createElement('div');
     name.className = "name";
-    
+    media.slidesLength = slidesUri.length;
     function createSlide(){
-      if(i >= slidesUri.length) return;
+      if(i >= slidesUri.length){
+        return;
+      }
       var slideUri = slidesUri[i],
         slideElement = slides[i] = document.createElement('div');
       slideElement.className = i + ' slide';
@@ -284,6 +286,7 @@ var mediaJS = function(configuration, manualControlToggle) {
           next.classList.remove('hidden');
           break;
       }
+      slideChangeEvent.slide = index;
       var oldSlide = slides[selectedSlideIndex],
         newSlide = slides[index];
       oldSlide.media.pause();
